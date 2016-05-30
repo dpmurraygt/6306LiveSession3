@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#define a set of data that we are going to bootstrap from\n#I'm going to make it 20 observations, with a mean of 20, and standard deviation of 3\n#Smaller data sets end up with lumpier looking histograms, while larger sets are closer to what is expected\n\nMyData<-rnorm(1000,20,10)\n\nhist(MyData)\nMeanMyData<-mean(MyData)\nStdErrorMyData<-sd(MyData)/sqrt(length(MyData))\nSampleVarianceMyData<-var(MyData)\nsd(MyData)\n\n#r is the repititions we will run\nr<-1000\n\n#s is the size of the sample we will take\ns<-length(MyData)\n\n#i is a counter for the loop\ni<-1\n\n#place to store the means\nSampleMeans<-c()\n\n#loop to repetitively take a sample\nwhile(i<=r)\n  {\nSampleMyData<-sample(MyData,size = s,replace=TRUE)\n\n#append SampleMyData to all of the SampleMeans\nSampleMeans<-c(SampleMeans, mean(SampleMyData))\n\ni<-i+1\n}\n\n#The sample means from our resampled, larger set moves into a much more well defined version of the\n#normal distribution and cleans up the imperfections.\n\nhist(SampleMeans)\n#define a set of data that we are going to bootstrap from\n#I'm going to make it 100 observations, with a mean of 20, and standard deviation of 3\n\n#Below I'm changing to exponential distribution\n\nMyData<-rexp(20)\n\nhist(MyData)\nMeanMyData<-mean(MyData)\nStdErrorMyData<-sd(MyData)/sqrt(length(MyData))\nSampleVarianceMyData<-var(MyData)\nsd(MyData)\n\n#r is the repititions we will run\nr<-1000\n\n#s is the size of the sample we will take\ns<-length(MyData)\n\n#i is a counter for the loop\ni<-1\n\n#place to store the means\nSampleMeans<-c()\n\n#loop to repetitively take a sample\nwhile(i<=r)\n{\n  SampleMyData<-sample(MyData,size = s,replace=TRUE)\n  \n  #append SampleMyData to all of the SampleMeans\n  SampleMeans<-c(SampleMeans, mean(SampleMyData))\n  \n  i<-i+1\n}\n\nhist(SampleMeans)\n",
+    "created" : 1464522281284.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "735338163",
+    "id" : "854580D2",
+    "lastKnownWriteTime" : 1464528738,
+    "last_content_update" : 1464652045469,
+    "path" : "~/R/Bootstrap/Analysis/Analysis.R",
+    "project_path" : "Analysis/Analysis.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
