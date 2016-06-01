@@ -1,0 +1,248 @@
+---
+title: "Week 4 Homework: The Bootstrap"
+author: "Dennis Murray"
+date: "June 1, 2016"
+knit: (function(inputFile, encoding) { 
+      rmarkdown::render(inputFile,
+                        encoding=encoding,                         output_file='papers/bootstrap.html') } )
+output: html_document
+Keep_md: true
+---
+##The Central Limit Theorem
+The important findings of the Central Limit Theorem state that the "...the mean of the sampling distribution of the average is also mu, the standard deviation of the sampling distribution is sigma divided by the square root of n, and the shape of the distribution is more nearly normal than is the shape of the population distribution." (The Statistical Sleuth by Ramsey and Schaefer, page 33)
+
+##Normal Distribution with Sample Size of 15
+
+My first test will be with a sample size of 15, a mean of 20, and standard deviation of 10.
+
+```{r Initialize first run}
+MyData<-rnorm(15,20,10)
+hist(MyData)
+```
+
+I'm going to take some descriptive statistics about the normally distributed data.  We will use those later to measure against.
+
+```{r store information}
+StdErrorMyData<-sd(MyData)/sqrt(length(MyData))
+SampleVarianceMyData<-var(MyData)
+mean(MyData)
+sd(MyData)
+```
+
+
+Now I'll boostrap the small sample into 1000 repititions of the data.
+
+```{r the loop function}
+#r is the repititions we will run
+r<-1000
+
+#s is the size of the sample we will take
+s<-length(MyData)
+
+#i is a counter for the loop
+i<-1
+
+#place to store the means
+SampleMeans<-c()
+
+#loop to repetitively take a sample
+while(i<=r)
+  {
+SampleMyData<-sample(MyData,size = s,replace=TRUE)
+
+#append SampleMyData to all of the SampleMeans
+SampleMeans<-c(SampleMeans, mean(SampleMyData))
+
+i<-i+1
+}
+```
+
+Let's review what the data now looks like.
+
+Can we show that the sampling distribution is more nearly normal?  The histogram will show this.
+
+Can we satisfy the other two specifications that were set forth in the Statistical Sleuth for the Central Limit Theorem?
+
+```{r Histogram of the size 15 data set}
+hist(SampleMeans)
+mean(SampleMeans)
+mean(MyData)
+sd(SampleMeans)
+sd(MyData)/sqrt(length(MyData))
+
+```
+
+In this case, the quantities reported are similar but not identical.
+
+##Normal Distribution with Sample Size of 500
+
+My second test will be with a sample size of 500, a mean of 20, and standard deviation of 10.
+```{r Start the second R normal with sample of 500}
+MyDataTwo<-rnorm(500,20,10)
+hist(MyDataTwo)
+```
+
+The result this time is definitely more normal to begin with, but is still less than symmetrical.
+
+I'm going to take some descriptive statistics about the normally distributed data.  We will use those later to measure against.
+
+```{r store information 2}
+StdErrorMyDataTwo<-sd(MyDataTwo)/sqrt(length(MyDataTwo))
+SampleVarianceMyDataTwo<-var(MyDataTwo)
+mean(MyDataTwo)
+sd(MyDataTwo)
+```
+
+
+Now I'll boostrap the larger sample into 1000 repititions of the data.
+
+```{r the loop function 2}
+#r is the repititions we will run
+r<-1000
+
+#s is the size of the sample we will take
+s<-length(MyDataTwo)
+
+#i is a counter for the loop
+i<-1
+
+#place to store the means
+SampleMeansTwo<-c()
+
+#loop to repetitively take a sample
+while(i<=r)
+  {
+SampleMyDataTwo<-sample(MyDataTwo,size = s,replace=TRUE)
+
+#append SampleMyData to all of the SampleMeans
+SampleMeansTwo<-c(SampleMeansTwo, mean(SampleMyDataTwo))
+
+i<-i+1
+}
+```
+
+Let's review what the data now looks like.  It has moved closer to a normal distribution.
+
+```{r Histogram of the size 500 data set}
+hist(SampleMeansTwo)
+mean(SampleMeansTwo)
+mean(MyDataTwo)
+sd(SampleMeansTwo)
+sd(MyDataTwo)/sqrt(length(MyDataTwo))
+
+```
+
+The means are nearly identical, and the standard deviation of the sample is close to the defined value of sigma divided by the square root of n.
+
+##Exponential Distribution with Sample Size of 15
+
+The second part of the problem asks us to repeat, with an exponential distribution.  I'll use 15 as the size of my data this time.
+```{r initialize the data exp of 15}
+MyDataThree<-rexp(15)
+```
+
+```{r descriptive info for Exp of 15}
+hist(MyDataThree)
+MeanMyDataThree<-mean(MyDataThree)
+StdErrorMyDataThree<-sd(MyDataThree)/sqrt(length(MyDataThree))
+SampleVarianceMyDataThree<-var(MyDataThree)
+sd(MyDataThree)
+```
+
+The small sample has left us with less than a perfect exponential distribution.
+
+```{r loop for exp of 15}
+#r is the repititions we will run
+r<-1000
+
+#s is the size of the sample we will take
+s<-length(MyDataThree)
+
+#i is a counter for the loop
+i<-1
+
+#place to store the means
+SampleMeansThree<-c()
+
+#loop to repetitively take a sample
+while(i<=r)
+{
+  SampleMyDataThree<-sample(MyDataThree,size = s,replace=TRUE)
+  
+  #append SampleMyDataThree to all of the SampleMeans
+  SampleMeansThree<-c(SampleMeansThree, mean(SampleMyDataThree))
+  
+  i<-i+1
+}
+```
+
+```{r histogram for SampleMeans from Exp of 15}
+hist(SampleMeansThree)
+```
+Again the bootstrap has provided us a sample mean distribution that is closer to the normal distribution.
+
+```{r descriptive stats for exp of 15}
+mean(SampleMeansThree)
+mean(MyDataThree)
+sd(SampleMeansThree)
+sd(MyDataThree)/sqrt(length(MyDataThree))
+```
+
+And again we've come to a conclusion where our means and standard deviations are very close.
+
+##Exponential Distribution for Population 1500
+
+```{r initialize the data exp of 1500}
+MyDataFour<-rexp(1500)
+```
+
+With a larger size for this random exponential distribution, it's much closer to what we would expect as ideal.
+
+```{r descriptive info for Exp of 1500}
+hist(MyDataFour)
+MeanMyDataFour<-mean(MyDataFour)
+StdErrorMyDataFour<-sd(MyDataFour)/sqrt(length(MyDataFour))
+SampleVarianceMyDataFour<-var(MyDataFour)
+sd(MyDataFour)
+```
+
+
+```{r loop for exp of 1500}
+#r is the repititions we will run
+r<-1000
+
+#s is the size of the sample we will take
+s<-length(MyDataFour)
+
+#i is a counter for the loop
+i<-1
+
+#place to store the means
+SampleMeansFour<-c()
+
+#loop to repetitively take a sample
+while(i<=r)
+{
+  SampleMyDataFour<-sample(MyDataFour,size = s,replace=TRUE)
+  
+  #append SampleMyDataFour to all of the SampleMeans
+  SampleMeansFour<-c(SampleMeansFour, mean(SampleMyDataFour))
+  
+  i<-i+1
+}
+```
+
+```{r histogram for SampleMeans from Exp of 1500}
+hist(SampleMeansFour)
+```
+Again the bootstrap has provided us a sample mean distribution that is closer to the normal distribution.
+
+```{r descriptive stats for exp of 1500}
+mean(SampleMeansFour)
+mean(MyDataFour)
+sd(SampleMeansFour)
+sd(MyDataFour)/sqrt(length(MyDataFour))
+```
+
+And again we've come to a conclusion where our means and standard deviations are very close.
+

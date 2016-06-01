@@ -1,7 +1,8 @@
 #define a set of data that we are going to bootstrap from
-#I'm going to make it 100 observations, with a mean of 20, and standard deviation of 3
+#I'm going to make it 20 observations, with a mean of 20, and standard deviation of 3
+#Smaller data sets end up with lumpier looking histograms, while larger sets are closer to what is expected
 
-MyData<-rnorm(20,20,10)
+MyData<-rnorm(10,20,10)
 
 hist(MyData)
 MeanMyData<-mean(MyData)
@@ -31,6 +32,9 @@ SampleMeans<-c(SampleMeans, mean(SampleMyData))
 
 i<-i+1
 }
+
+#The sample means from our resampled, larger set moves into a much more well defined version of the
+#normal distribution and cleans up the imperfections.
 
 hist(SampleMeans)
 #define a set of data that we are going to bootstrap from
